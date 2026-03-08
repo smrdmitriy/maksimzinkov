@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прикладная физика: Связь и Безопасность</title>
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #f8fafc;
+            --accent: #3b82f6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: white;
+            color: #1e293b;
+        }
+
+        .wave-bg {
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wave-bg::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.05) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+
+        .btn-primary {
+            @apply px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-blue-200 hover:shadow-blue-300 transform hover:-translate-y-0.5;
+        }
+
+        .input-field {
+            @apply w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200;
+        }
+
+        /* Physics animation elements */
+        .radio-wave {
+            position: absolute;
+            border: 2px solid rgba(37, 99, 235, 0.2);
+            border-radius: 50%;
+            animation: pulse-wave 3s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulse-wave {
+            0% { transform: scale(0.5); opacity: 0.8; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body x-data="physicsApp()">
+    
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center justify-center wave-bg px-4 overflow-hidden">
+        <div class="container mx-auto relative z-10 text-center">
+            <div class="inline-flex items-center space-x-2 bg-blue-50 px-4 py-2 rounded-full text-blue-600 font-medium mb-6 animate-bounce">
+                <i data-lucide="radio" class="w-4 h-4"></i>
+                <span>Мастер-класс по прикладной физике</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 mb-6 leading-tight" data-aos="fade-up">
+                Связь и Безопасность в <br>
+                <span class="text-blue-600">Экстремальных Условиях</span>
+            </h1>
+            <p class="text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed" data-aos="fade-up" data-aos-delay="100">
+                Коллеги, здравствуйте! Сегодня мы погрузимся в физику, которая напрямую связана с обеспечением надежных каналов связи для гуманитарных конвоев.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4" data-aos="fade-up" data-aos-delay="200">
+                <a href="#theory" class="bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-100 flex items-center gap-2">
+                    Начать погружение
+                    <i data-lucide="arrow-down" class="w-5 h-5"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Animated Background Waves -->
+        <div class="absolute bottom-0 left-0 w-full opacity-10">
+            <svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#2563eb" fill-opacity="1" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,149.3C672,149,768,203,864,218.7C960,235,1056,213,1152,186.7C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+        </div>
+    </header>
+
+    <!-- Section 1: Theory -->
+    <section id="theory" class="py-24 bg-white px-4">
+        <div class="container mx-auto">
+            <div class="max-w-4xl mx-auto text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">Часть 1. Теоретическая база: Диапазон частот</h2>
+                <p class="text-slate-600">Прежде чем программировать рации, вспомним, что такое УКВ диапазон и какие частоты выделены для гражданской связи в России.</p>
+            </div>
+
+            <div class="glass-card rounded-3xl overflow-hidden border border-slate-100" data-aos="fade-up">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-blue-600 text-white">
+                            <tr>
+                                <th class="px-6 py-4 font-semibold">Диапазон</th>
+                                <th class="px-6 py-4 font-semibold">Название</th>
+                                <th class="px-6 py-4 font-semibold">Пользователи и службы</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr class="hover:bg-blue-50 transition-colors">
+                                <td class="px-6 py-4 font-bold text-blue-600">27 МГц</td>
+                                <td class="px-6 py-4 font-medium">CB (Citizen Band)</td>
+                                <td class="px-6 py-4 text-slate-600 text-sm">Дальнобойщики, таксисты. Сигнал огибает препятствия, но требует длинных антенн.</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50 transition-colors bg-blue-50/30">
+                                <td class="px-6 py-4 font-bold text-blue-600">433-446 МГц</td>
+                                <td class="px-6 py-4 font-medium">LPD (Low Power Device)</td>
+                                <td class="px-6 py-4 text-slate-600 text-sm font-semibold">Наш рабочий диапазон. Безлицензионная связь для бизнеса и туризма.</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50 transition-colors">
+                                <td class="px-6 py-4 font-bold text-blue-600">446-446.1 МГц</td>
+                                <td class="px-6 py-4 font-medium">PMR (Private Mobile Radio)</td>
+                                <td class="px-6 py-4 text-slate-600 text-sm">Европейский стандарт для безлицензионной связи.</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50 transition-colors">
+                                <td class="px-6 py-4 font-bold text-blue-600">144-146 МГц</td>
+                                <td class="px-6 py-4 font-medium">VHF (2-метровый)</td>
+                                <td class="px-6 py-4 text-slate-600 text-sm">Радиолюбители. Используется для местной и спутниковой связи.</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50 transition-colors">
+                                <td class="px-6 py-4 font-bold text-blue-600">430-440 МГц</td>
+                                <td class="px-6 py-4 font-medium">UHF (70-см)</td>
+                                <td class="px-6 py-4 text-slate-600 text-sm">Радиолюбители (требуется разрешение).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-8 p-6 bg-blue-50 rounded-2xl border-l-4 border-blue-600 max-w-4xl mx-auto" data-aos="fade-left">
+                <p class="text-blue-900 leading-relaxed">
+                    <strong>Наш случай:</strong> Мы работаем в <strong>LPD-диапазоне (433–446 МГц)</strong>. Он лучше всего подходит для связи в условиях городской застройки благодаря хорошему проникновению сквозь препятствия.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Radio Setup & Calculator -->
+    <section class="py-24 bg-slate-50 px-4">
+        <div class="container mx-auto">
+            <div class="flex flex-col lg:flex-row gap-12 items-start">
+                
+                <!-- Left: Instructions -->
+                <div class="lg:w-1/2" data-aos="fade-right">
+                    <h2 class="text-3xl font-bold mb-6">Часть 2. Практическая задача №1: Настройка раций TYT UV390</h2>
+                    <p class="text-slate-600 mb-8 leading-relaxed">
+                        Необходимо настроить рации так, чтобы водители в пунктах А и Б работали на одной волне. Частота на обеих рациях должна совпадать.
+                    </p>
+
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center shrink-0 font-bold">1</div>
+                            <div>
+                                <h4 class="font-bold mb-1">Включение и выбор режима</h4>
+                                <p class="text-sm text-slate-600">Включите рацию регулятором громкости. Текущая частота отобразится на дисплее.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center shrink-0 font-bold">2</div>
+                            <div>
+                                <h4 class="font-bold mb-1">Выбор диапазона</h4>
+                                <p class="text-sm text-slate-600">Убедитесь, что активен UHF. Цифры на дисплее должны начинаться с 4 (например, 433.000).</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center shrink-0 font-bold">3</div>
+                            <div>
+                                <h4 class="font-bold mb-1">Ввод частоты</h4>
+                                <p class="text-sm text-slate-600">Введите на клавиатуре вычисленную частоту.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center shrink-0 font-bold">4</div>
+                            <div>
+                                <h4 class="font-bold mb-1">Подтверждение</h4>
+                                <p class="text-sm text-slate-600">Нажмите зеленую кнопку и «PTT» для начала работы.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Calculator Card -->
+                <div class="lg:w-1/2 w-full" data-aos="fade-left">
+                    <div class="glass-card rounded-3xl p-8 sticky top-8">
+                        <div class="bg-blue-600 -mx-8 -mt-8 p-6 rounded-t-3xl mb-8">
+                            <h3 class="text-white text-xl font-bold flex items-center gap-2">
+                                <i data-lucide="brain-circuit"></i>
+                                Задание: Вычисляем частоту
+                            </h3>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="p-4 bg-white/50 border border-blue-100 rounded-xl">
+                                <p class="text-sm text-slate-600 italic">
+                                    "Первые три цифры (до запятой) — из начала разрешенного диапазона (см. таблицу). 
+                                    Три цифры после запятой — число-палиндром, у которого первая цифра равна кубическому корню из 125."
+                                </p>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2">Введите частоту (МГц)</label>
+                                    <div class="flex items-center gap-2">
+                                        <input type="text" x-model="radioFrequency" placeholder="000.000" class="input-field text-2xl font-mono text-center tracking-widest">
+                                        <button @click="checkFrequency()" class="bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200">
+                                            <i data-lucide="send"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Result Message -->
+                                <template x-if="freqStatus === 'success'">
+                                    <div class="p-4 bg-emerald-50 text-emerald-700 rounded-xl flex items-center gap-3 animate-bounce">
+                                        <i data-lucide="check-circle" class="w-5 h-5"></i>
+                                        <span>Верно! Частота 433.555 МГц установлена.</span>
+                                    </div>
+                                </template>
+                                <template x-if="freqStatus === 'error'">
+                                    <div class="p-4 bg-rose-50 text-rose-700 rounded-xl flex items-center gap-3">
+                                        <i data-lucide="alert-circle" class="w-5 h-5"></i>
+                                        <span>Неверно. Попробуйте еще раз!</span>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <!-- Explanation Button -->
+                            <button @click="showHint = !showHint" class="text-blue-600 text-sm font-semibold hover:underline flex items-center gap-1">
+                                <span x-text="showHint ? 'Скрыть подсказку' : 'Показать ход решения'"></span>
+                            </button>
+                            
+                            <div x-show="showHint" x-transition class="p-4 bg-slate-50 rounded-xl text-sm text-slate-600 space-y-2">
+                                <p>1. Начало диапазона LPD: <strong>433</strong> МГц.</p>
+                                <p>2. Кубический корень из 125 = <strong>5</strong>.</p>
+                                <p>3. Трехзначный палиндром с первой цифрой 5: <strong>555</strong>.</p>
+                                <p>Итог: <strong>433.555</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Safe Distance -->
+    <section class="py-24 bg-white px-4 relative overflow-hidden">
+        <div class="container mx-auto">
+            <div class="max-w-4xl mx-auto text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">Часть 3. Расчет безопасной дистанции</h2>
+                <p class="text-slate-600">Определим максимальное расстояние прямой видимости с учетом атмосферной рефракции.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+                
+                <div data-aos="fade-right">
+                    <div class="p-8 bg-blue-600 text-white rounded-3xl shadow-2xl relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+                            <i data-lucide="waves" class="w-32 h-32"></i>
+                        </div>
+                        <h4 class="text-lg font-medium mb-2 opacity-80 text-blue-100">Формула радиогоризонта</h4>
+                        <div class="text-4xl font-mono mb-8 py-6 border-y border-white/10 text-center">
+                            D = 4.12 × (√h₁ + √h₂)
+                        </div>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-center gap-2">
+                                <div class="w-1.5 h-1.5 bg-blue-200 rounded-full"></div>
+                                <span>D — дальность связи в километрах</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <div class="w-1.5 h-1.5 bg-blue-200 rounded-full"></div>
+                                <span>h₁, h₂ — высота антенн в метрах (2.5м)</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <div class="w-1.5 h-1.5 bg-blue-200 rounded-full"></div>
+                                <span>4.12 — коэффициент рефракции</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="space-y-8" data-aos="fade-left">
+                    <div class="glass-card p-8 rounded-3xl">
+                        <h3 class="text-xl font-bold mb-6">Калькулятор дальности</h3>
+                        <div class="space-y-6">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 mb-2">Высота 1 (м)</label>
+                                    <input type="number" x-model="h1" class="input-field" step="0.1">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 mb-2">Высота 2 (м)</label>
+                                    <input type="number" x-model="h2" class="input-field" step="0.1">
+                                </div>
+                            </div>
+                            
+                            <div class="pt-6 border-t border-slate-100">
+                                <div class="flex justify-between items-end">
+                                    <span class="text-slate-600 font-medium">Расчетная дальность:</span>
+                                    <span class="text-4xl font-bold text-blue-600"><span x-text="calculateDistance()"></span> км</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-amber-50 rounded-2xl border-l-4 border-amber-400">
+                        <div class="flex gap-4">
+                            <i data-lucide="info" class="text-amber-600 shrink-0"></i>
+                            <div>
+                                <h5 class="font-bold text-amber-900 mb-1">Примечание физика</h5>
+                                <p class="text-sm text-amber-800">
+                                    Это идеальная дальность. На практике из-за рельефа и помех дальность может упасть до 5-8 км. Всегда закладывайте запас прочности!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Conclusion -->
+    <footer class="py-24 bg-slate-900 text-white relative overflow-hidden">
+        <!-- Background Animation -->
+        <div class="absolute inset-0 z-0 opacity-20 pointer-events-none" id="waves-container"></div>
+
+        <div class="container mx-auto px-4 relative z-10 text-center">
+            <div class="w-20 h-20 bg-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-8 rotate-12 hover:rotate-0 transition-transform duration-500">
+                <i data-lucide="shield-check" class="w-10 h-10"></i>
+            </div>
+            <h2 class="text-4xl font-bold mb-6" data-aos="fade-up">Готовы к практической работе?</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto mb-12 text-lg" data-aos="fade-up" data-aos-delay="100">
+                Теперь вы не только технически настроили оборудование, но и понимаете физику процессов. Это позволит вам эффективно обеспечивать связь в любых условиях.
+            </p>
+            <div class="pt-12 border-t border-slate-800">
+                <p class="text-sm text-slate-500 font-medium tracking-widest uppercase">Мастер-класс по прикладной физике • 2026</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            easing: 'ease-out-quad'
+        });
+
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Alpine.js Application Logic
+        function physicsApp() {
+            return {
+                radioFrequency: '',
+                freqStatus: null,
+                showHint: false,
+                h1: 2.5,
+                h2: 2.5,
+
+                checkFrequency() {
+                    const cleanFreq = this.radioFrequency.replace(',', '.');
+                    if (cleanFreq === '433.555') {
+                        this.freqStatus = 'success';
+                    } else {
+                        this.freqStatus = 'error';
+                        setTimeout(() => this.freqStatus = null, 3000);
+                    }
+                },
+
+                calculateDistance() {
+                    const d = 4.12 * (Math.sqrt(this.h1) + Math.sqrt(this.h2));
+                    return d.toFixed(2);
+                }
+            }
+        }
+
+        // Add some floating waves for physics feel
+        function createWave() {
+            const container = document.getElementById('waves-container');
+            if (!container) return;
+
+            const wave = document.createElement('div');
+            wave.className = 'radio-wave';
+            
+            // Random position in the footer
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            
+            wave.style.left = x + '%';
+            wave.style.top = y + '%';
+            
+            container.appendChild(wave);
+            
+            setTimeout(() => {
+                wave.remove();
+            }, 3000);
+        }
+
+        setInterval(createWave, 1000);
+    </script>
+</body>
+</html>
